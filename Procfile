@@ -1,1 +1,1 @@
-web: bin/tikihackathon
+web: bin/app
