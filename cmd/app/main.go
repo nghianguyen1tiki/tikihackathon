@@ -18,7 +18,7 @@ func main() {
 
 	router := gin.New()
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello world!")
+		c.String(http.StatusOK, "Hello!")
 	})
 
 	router.Run(":" + port)
