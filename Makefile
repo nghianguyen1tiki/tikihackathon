@@ -13,10 +13,10 @@ heroku: $(DOCKER_CMD)
 	heroku container:push web
 
 run:
-	go build -o bin/tikihackathon cmd/app/main.go && heroku local web
+	go build -o bin/app cmd/app/main.go && heroku local web
 
 build:
-	go build -o bin/tikihackathon -v .
+	go build -o bin/app -v .
 
 deploy:
 	git push heroku main && heroku open
