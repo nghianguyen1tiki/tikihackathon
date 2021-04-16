@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"errors"
-	"github.com/nghiant3223/tikihackathon/pkg/log"
+	"fmt"
 	"net"
 	"net/http"
 
@@ -34,8 +34,7 @@ func NewServer(config *config.Server, router *gin.Engine) Server {
 func (s *server) Start(ctx context.Context) error {
 	err := s.httpServer.ListenAndServe()
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
-		log.Errorf("failed to listen on port %d", s.config.Http.Port)
-		return err
+		return fmt.Errorf("failed to listen on port %s: %w", s.config.Http.Port, err)
 	}
 	return nil
 }

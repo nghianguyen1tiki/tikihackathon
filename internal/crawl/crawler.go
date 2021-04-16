@@ -77,6 +77,7 @@ func (c *Crawler) persistData(ctx context.Context, data Data) error {
 		Rating:      data.Rating,
 		Servings:    data.Servings,
 		TotalTime:   data.TotalTime,
+		TotalView:   data.TotalView,
 		Difficulty:  rand.Int()%10 + 1,
 	}
 	err := c.upsertRecipe(ctx, recipe)
@@ -181,13 +182,11 @@ func (c *Crawler) crawlRecipe(ctx context.Context, recipeID int) (Data, error) {
 }
 
 func (c *Crawler) buildTargetURL(id int) (string, error) {
-	return c.cfg.target + "&id=" + cast.ToString(id), nil
 	u, err := url.Parse(c.cfg.target)
 	if err != nil {
 		return "", err
 	}
 	query := u.Query()
-	log.Info(cast.ToString(id))
 	query.Add("id", cast.ToString(id))
 	u.RawQuery = query.Encode()
 	return u.String(), nil

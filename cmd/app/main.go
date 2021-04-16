@@ -10,11 +10,18 @@ import (
 	"github.com/nghiant3223/tikihackathon/internal/fx/recipefx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/serverfx"
 	"go.uber.org/fx"
+	"time"
+)
+
+const (
+	configFilename = "crawler"
+	startTimeout   = 30 * time.Second
 )
 
 func main() {
 	fx.New(
-		configfx.Invoke("app"),
+		configfx.Invoke(configFilename),
+		fx.StartTimeout(startTimeout),
 		logfx.Invoke,
 		dbfx.Provide,
 		httpfx.Provide,

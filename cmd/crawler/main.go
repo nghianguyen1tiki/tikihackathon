@@ -13,12 +13,13 @@ import (
 )
 
 const (
-	startTimeout = 5 * time.Minute
+	configFilename = "crawler"
+	startTimeout   = 5 * time.Minute
 )
 
 func main() {
 	fx.New(
-		configfx.Invoke("crawler"),
+		configfx.Invoke(configFilename),
 		fx.StartTimeout(startTimeout),
 		logfx.Invoke,
 		dbfx.Provide,

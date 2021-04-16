@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type Config struct {
 	Server Server
 }
@@ -18,4 +20,14 @@ type DB struct {
 type Log struct {
 	Mode string
 	Type string
+}
+
+type Cache struct {
+	TTL             time.Duration
+	PopularPageSize int
+}
+
+type Feed struct {
+	DefaultOffset int
+	DefaultLimit  int
 }

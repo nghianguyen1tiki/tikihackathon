@@ -7,6 +7,7 @@ type Data struct {
 	Rating      float32 `json:"avgRating"`
 	Servings    int     `json:"servings"`
 	TotalTime   int     `json:"totalTime"`
+	TotalView   int     `json:"totalView"`
 	Ingredients []struct {
 		Unit struct {
 			Unit  string `json:"unit"`
