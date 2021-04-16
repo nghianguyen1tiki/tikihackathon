@@ -19,7 +19,7 @@ const (
 func main() {
 	fx.New(
 		configfx.Invoke("crawler"),
-		fx.StopTimeout(startTimeout),
+		fx.StartTimeout(startTimeout),
 		logfx.Invoke,
 		dbfx.Provide,
 		httpfx.Provide,
