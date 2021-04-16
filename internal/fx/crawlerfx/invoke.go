@@ -2,12 +2,14 @@ package crawlerfx
 
 import (
 	"context"
-	"github.com/nghiant3223/tikihackathon/internal/crawler"
+
 	"go.uber.org/fx"
 	"gorm.io/gorm"
+
+	"github.com/nghiant3223/tikihackathon/internal/crawler"
 )
 
-func initializeCrawler(lc fx.Lifecycle, db *gorm.DB) error {
+func invokeCrawler(lc fx.Lifecycle, db *gorm.DB) error {
 	craw := crawler.NewCrawler(db)
 	lc.Append(
 		fx.Hook{
