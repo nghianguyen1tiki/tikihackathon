@@ -1,11 +1,9 @@
 package config
 
 import (
-	"strings"
-
-	"github.com/spf13/viper"
-
 	"github.com/nghiant3223/tikihackathon/pkg/log"
+	"github.com/spf13/viper"
+	"strings"
 )
 
 func Load(name string) {

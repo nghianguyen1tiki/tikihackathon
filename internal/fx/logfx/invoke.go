@@ -1,14 +1,18 @@
 package logfx
 
 import (
+	"github.com/nghiant3223/tikihackathon/internal/config"
 	"github.com/spf13/viper"
 
 	"github.com/nghiant3223/tikihackathon/pkg/log"
 )
 
 func invokeLogger() {
-	mode := viper.GetString("log.mode")
-	loggerType := viper.GetString("log.type")
+	var cfg *config.Log
+	err := viper.UnmarshalKey("log", &cfg)
+	if err != nil {
+		return
+	}
 
-	log.Init(log.WithMode(mode), log.WithLoggerType(loggerType))
+	log.Init(log.WithMode(cfg.Mode), log.WithLoggerType(cfg.Type))
 }

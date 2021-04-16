@@ -22,6 +22,12 @@ type repo struct {
 	db *gorm.DB
 }
 
+func NewRepo(db *gorm.DB) Repo {
+	return &repo{
+		db: db,
+	}
+}
+
 func (r *repo) Get(ctx context.Context, id int) (model.Recipe, error) {
 	panic("implement me")
 }
