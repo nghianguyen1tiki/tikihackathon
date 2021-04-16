@@ -22,12 +22,14 @@ github.com/jackc/pgio
 # github.com/jackc/pgpassfile v1.0.0
 github.com/jackc/pgpassfile
 # github.com/jackc/pgproto3/v2 v2.0.7
+## explicit
 github.com/jackc/pgproto3/v2
 # github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b
 github.com/jackc/pgservicefile
 # github.com/jackc/pgtype v1.7.0
 github.com/jackc/pgtype
 # github.com/jackc/pgx/v4 v4.11.0
+## explicit
 github.com/jackc/pgx/v4
 github.com/jackc/pgx/v4/internal/sanitize
 github.com/jackc/pgx/v4/stdlib
@@ -51,6 +53,7 @@ github.com/spf13/jwalterweatherman
 # github.com/spf13/pflag v1.0.3
 github.com/spf13/pflag
 # github.com/spf13/viper v1.7.1
+## explicit
 github.com/spf13/viper
 # github.com/subosito/gotenv v1.2.0
 github.com/subosito/gotenv
@@ -61,13 +64,16 @@ go.uber.org/dig
 go.uber.org/dig/internal/digreflect
 go.uber.org/dig/internal/dot
 # go.uber.org/fx v1.13.1
+## explicit
 go.uber.org/fx
 go.uber.org/fx/internal/fxlog
 go.uber.org/fx/internal/fxreflect
 go.uber.org/fx/internal/lifecycle
 # go.uber.org/multierr v1.6.0
+## explicit
 go.uber.org/multierr
 # go.uber.org/zap v1.16.0
+## explicit
 go.uber.org/zap
 go.uber.org/zap/buffer
 go.uber.org/zap/internal/bufferpool
@@ -77,9 +83,11 @@ go.uber.org/zap/zapcore
 # golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 golang.org/x/crypto/pbkdf2
 # golang.org/x/sys v0.0.0-20210330210617-4fbd30eecc44
+## explicit
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.6
+## explicit
 golang.org/x/text/cases
 golang.org/x/text/internal
 golang.org/x/text/internal/language
@@ -98,8 +106,10 @@ gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.2.4
 gopkg.in/yaml.v2
 # gorm.io/driver/postgres v1.0.8
+## explicit
 gorm.io/driver/postgres
 # gorm.io/gorm v1.21.7
+## explicit
 gorm.io/gorm
 gorm.io/gorm/callbacks
 gorm.io/gorm/clause

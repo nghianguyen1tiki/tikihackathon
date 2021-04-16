@@ -1,6 +1,6 @@
 module github.com/nghiant3223/tikihackathon
 
-go 1.12
+go 1.16
 
 require (
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
