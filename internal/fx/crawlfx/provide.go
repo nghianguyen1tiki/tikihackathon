@@ -1,11 +1,13 @@
 package crawlfx
 
 import (
-	"github.com/nghiant3223/tikihackathon/internal/crawl"
-	"github.com/nghiant3223/tikihackathon/pkg/assert"
+	"net/http"
+
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
-	"net/http"
+
+	"github.com/nghiant3223/tikihackathon/internal/crawl"
+	"github.com/nghiant3223/tikihackathon/pkg/assert"
 )
 
 func provideCrawler(db *gorm.DB, httpClient *http.Client) *crawl.Crawler {

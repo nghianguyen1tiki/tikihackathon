@@ -13,7 +13,7 @@ type Data struct {
 			Value string `json:"value"`
 		} `json:"unit"`
 		Name     *string `json:"name"`
-		Quantity string `json:"quantity"`
+		Quantity string  `json:"quantity"`
 	} `json:"ingredients"`
 	Steps []struct {
 		Content string `json:"content"`

@@ -4,16 +4,18 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/nghiant3223/tikihackathon/internal/model"
-	"github.com/nghiant3223/tikihackathon/pkg/log"
-	"github.com/spf13/cast"
-	"golang.org/x/sync/errgroup"
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/url"
+
+	"github.com/spf13/cast"
+	"golang.org/x/sync/errgroup"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+
+	"github.com/nghiant3223/tikihackathon/internal/model"
+	"github.com/nghiant3223/tikihackathon/pkg/log"
 )
 
 type Crawler struct {

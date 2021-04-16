@@ -2,8 +2,10 @@ package crawlfx
 
 import (
 	"context"
-	"github.com/nghiant3223/tikihackathon/internal/crawl"
+
 	"go.uber.org/fx"
+
+	"github.com/nghiant3223/tikihackathon/internal/crawl"
 )
 
 func invokeCrawler(lc fx.Lifecycle, crawler *crawl.Crawler) {

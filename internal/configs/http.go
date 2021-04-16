@@ -9,7 +9,7 @@ import (
 
 type HttpConfig struct {
 	Server struct {
-		Http struct{
+		Http struct {
 			Addr string
 		}
 	}
