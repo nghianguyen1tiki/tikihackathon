@@ -1,9 +1,10 @@
 package crawl
 
 type config struct {
-	target  string
-	count   int
-	upperID int
+	target      string
+	count       int
+	upperID     int
+	concurrency int
 }
 
 type configFn func(*config)
@@ -23,5 +24,11 @@ func WithCount(count int) configFn {
 func WithUpperID(upperID int) configFn {
 	return func(c *config) {
 		c.upperID = upperID
+	}
+}
+
+func WithConcurrency(concurrency int) configFn {
+	return func(c *config) {
+		c.concurrency = concurrency
 	}
 }

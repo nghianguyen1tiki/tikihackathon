@@ -72,5 +72,5 @@ func (l *zapLogger) Infof(format string, args ...interface{}) {
 }
 
 func (l *zapLogger) Infow(message string, keyAndValues ...interface{}) {
-	l.sugaredLg.Infof(message, keyAndValues...)
+	l.sugaredLg.Infow(message, keyAndValues...)
 }
