@@ -5,3 +5,7 @@ db:
 log:
   mode: production
   type: zap
+
+server:
+  http:
+    addr: :8080
