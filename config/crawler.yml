@@ -1,7 +1,13 @@
 db:
   dialect: postgres
-  dsn: host=ec2-34-225-103-117.compute-1.amazonaws.com user=sttkbwhhbfzyis password=2bbb535543dcb4bf3effc10b8437d1982f42d10cd6a2a6eb74d8d61d307357e1 dbname=dba0he9ct5fqqm sslmode=disable Asia/Ho_Chi_Minh
+  #  dsn: host=ec2-34-225-103-117.compute-1.amazonaws.com user=sttkbwhhbfzyis password=2bbb535543dcb4bf3effc10b8437d1982f42d10cd6a2a6eb74d8d61d307357e1 dbname=dba0he9ct5fqqm sslmode=disable TimeZone=Asia/Ho_Chi_Minh
+  dsn: host=127.0.0.1 user=postgres password=postgres dbname=tikihackathon sslmode=disable TimeZone=Asia/Ho_Chi_Minh
 
 log:
   mode: production
   type: zap
+
+crawl:
+  target: https://marketapi.cooky.vn/recipe/v1.3/detail?checksum=09e61446787da4c260fbdf9a50554a83&id=14954
+  count: 1000
+  upperid: 15000

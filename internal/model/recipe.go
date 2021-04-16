@@ -6,7 +6,8 @@ type Recipe struct {
 	Description string `gorm:"types:text"`
 	Rating      int
 	Servings    int
-	Author      *User
+	Author      *User `gorm:"foreignKey:UserID"`
+	UserID      int
 	Ingredients []Including
 	Steps       []Step
 }

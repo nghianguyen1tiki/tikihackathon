@@ -1,4 +1,4 @@
-package crawlerfx
+package crawlfx
 
 import "go.uber.org/fx"
 

@@ -13,6 +13,10 @@ var (
 	once sync.Once
 )
 
+func init() {
+	Init()
+}
+
 func Init(optFns ...optFn) {
 	once.Do(func() {
 		o := &opt{

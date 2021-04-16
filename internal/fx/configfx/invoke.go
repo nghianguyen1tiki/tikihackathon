@@ -6,8 +6,8 @@ import (
 	"github.com/nghiant3223/tikihackathon/pkg/config"
 )
 
-func Invoke(name string) fx.Option {
+func Invoke(configFilename string) fx.Option {
 	return fx.Invoke(func() {
-		config.Load(name)
+		config.Load(configFilename)
 	})
 }

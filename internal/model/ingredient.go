@@ -2,10 +2,10 @@ package model
 
 type Ingredient struct {
 	ID   int
-	Name string
+	Name string `gorm:"unique"`
 }
 
 type Unit struct {
 	ID   int
-	Name string
+	Name string `gorm:"unique"`
 }
