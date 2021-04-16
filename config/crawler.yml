@@ -1,7 +1,7 @@
 db:
   dialect: postgres
-  dsn: postgresql://postgres:postgres@127.0.0.1:5432/tikihackathon?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
-#  dsn: postgres://sttkbwhhbfzyis:2bbb535543dcb4bf3effc10b8437d1982f42d10cd6a2a6eb74d8d61d307357e1@ec2-34-225-103-117.compute-1.amazonaws.com:5432/dba0he9ct5fqqm?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
+#  dsn: postgresql://postgres:postgres@127.0.0.1:5432/tikihackathon?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
+  dsn: postgres://sttkbwhhbfzyis:2bbb535543dcb4bf3effc10b8437d1982f42d10cd6a2a6eb74d8d61d307357e1@ec2-34-225-103-117.compute-1.amazonaws.com:5432/dba0he9ct5fqqm?TimeZone=Asia/Ho_Chi_Minh
 
 log:
   mode: production
