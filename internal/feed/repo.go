@@ -99,7 +99,7 @@ func (r *repo) GetPersonalizedRecipes(
 	if actualOffset >= len(recipeAndScoreList) {
 		return []model.Recipe{}, nil
 	}
-	actualUpper := math.MinInt(actualOffset+actualLimit+1, len(recipeAndScoreList))
+	actualUpper := math.MinInt(actualOffset+actualLimit, len(recipeAndScoreList))
 	recipeAndScoreList = recipeAndScoreList[actualOffset:actualUpper]
 
 	recipes := make([]model.Recipe, len(recipeAndScoreList))
