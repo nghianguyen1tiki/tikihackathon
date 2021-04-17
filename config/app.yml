@@ -1,6 +1,6 @@
 db:
-  dialect: postgres
-  dsn: postgresql://postgres:postgres@127.0.0.1:5432/tikihackathon?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
+  dialect: mysql
+  dsn: root:changeme@tcp(localhost:3306)/tikihackathon?timeout=10s&parseTime=true
 
 log:
   mode: production
