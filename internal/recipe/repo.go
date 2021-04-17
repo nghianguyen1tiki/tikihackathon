@@ -2,6 +2,7 @@ package recipe
 
 import (
 	"context"
+	"gorm.io/gorm/clause"
 
 	"gorm.io/gorm"
 
@@ -9,14 +10,8 @@ import (
 )
 
 type Repo interface {
-<<<<<<< HEAD
-	Get(ctx context.Context, id int) (model.Recipe, error)
 	ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error)
-=======
 	Get(ctx context.Context, id int) (*model.Recipe, error)
-	Create(ctx context.Context, recipe *model.Recipe) error
-	Upsert(ctx context.Context, recipe *model.Recipe) error
->>>>>>> ddc19fc (Implement get recipe detail)
 }
 
 var _ Repo = (*repo)(nil)
@@ -31,7 +26,6 @@ func NewRepo(db *gorm.DB) Repo {
 	}
 }
 
-<<<<<<< HEAD
 func (r *repo) ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error) {
 	var recipes []model.Recipe
 	db := r.db.WithContext(ctx).Order("total_view DESC")
@@ -46,7 +40,8 @@ func (r *repo) ListPopular(ctx context.Context, offset, limit *int) ([]model.Rec
 		return nil, err
 	}
 	return recipes, nil
-=======
+}
+
 func (r *repo) Get(ctx context.Context, id int) (*model.Recipe, error) {
 	record := &model.Recipe{}
 	err := r.db.WithContext(ctx).
@@ -54,24 +49,11 @@ func (r *repo) Get(ctx context.Context, id int) (*model.Recipe, error) {
 		Preload("Ingredients.Unit").
 		Preload("Steps.StepPhotos").
 		Preload(clause.Associations).
-		Where("id = ?", id).First(record).Error
+		Where("id = ?", id).
+		First(record).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return record, nil
-}
-
-func (r *repo) Create(ctx context.Context, recipe *model.Recipe) error {
-	panic("implement me")
->>>>>>> ddc19fc (Implement get recipe detail)
-}
-
-func (r *repo) Get(ctx context.Context, id int) (model.Recipe, error) {
-	var recipe model.Recipe
-	err := r.db.WithContext(ctx).Preload("Photo").First(&recipe, id).Error
-	if err != nil {
-		return model.Recipe{}, err
-	}
-	return recipe, nil
 }

@@ -3,6 +3,7 @@ package ingredient
 import (
 	"context"
 	"fmt"
+	"gorm.io/gorm/clause"
 
 	"gorm.io/gorm"
 
@@ -10,8 +11,6 @@ import (
 )
 
 type Repo interface {
-	Get(ctx context.Context, id int) (model.Ingredient, error)
-	Create(ctx context.Context, ingredient *model.Ingredient) error
 	List(ctx context.Context, page int, limit int, filter map[string]interface{}) ([]*model.Ingredient, error)
 	ListByIDs(ctx context.Context, ids []int64) ([]*model.Ingredient, error)
 }
@@ -28,14 +27,6 @@ func NewRepo(db *gorm.DB) Repo {
 	}
 }
 
-func (r *repo) Get(ctx context.Context, id int) (model.Ingredient, error) {
-	panic("implement me")
-}
-
-func (r *repo) Create(ctx context.Context, ingredient *model.Ingredient) error {
-	panic("implement me")
-}
-
 func (r *repo) List(ctx context.Context, page int, limit int, filter map[string]interface{}) ([]*model.Ingredient, error) {
 	var records []*model.Ingredient
 	name := fmt.Sprintf("%v", filter["name"])
@@ -44,7 +35,11 @@ func (r *repo) List(ctx context.Context, page int, limit int, filter map[string]
 	err := r.db.WithContext(ctx).
 		Preload(clause.Associations).
 		Joins("INNER JOIN tiki_categories on ingredients.tiki_cate_id = tiki_categories.id").
-		Where("ingredients.name LIKE ?", "%"+name+"%").Order("id DESC").Limit(limit).Offset(offset).Find(&records).Error
+		Where("ingredients.name LIKE ?", "%"+name+"%").
+		Order("id DESC").
+		Limit(limit).
+		Offset(offset).
+		Find(&records).Error
 	return records, err
 }
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/nghiant3223/tikihackathon/internal/cache"
 	"github.com/nghiant3223/tikihackathon/internal/config"
-	goCache "github.com/patrickmn/go-cache"
+	gocache "github.com/patrickmn/go-cache"
 	"github.com/spf13/viper"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
@@ -17,7 +17,7 @@ func provideCache(lc fx.Lifecycle, db *gorm.DB) (cache.Cache, error) {
 		return nil, err
 	}
 
-	innerCache := goCache.New(cfg.TTL, cfg.CleanupInterval)
+	innerCache := gocache.New(cfg.TTL, cfg.CleanupInterval)
 	cacher := cache.New(cfg, db, innerCache)
 
 	lc.Append(fx.Hook{

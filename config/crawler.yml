@@ -1,6 +1,6 @@
 db:
   dialect: postgres
-  dsn: postgresql://postgres:postgres@127.0.0.1:5432/tikihackathon?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
+  dsn: aquacity_tkhkt:!-xn9z,5ekQE@tcp(202.92.5.200:3306)/aquacity_tkhkt?timeout=10s&parseTime=true
 
 log:
   mode: production

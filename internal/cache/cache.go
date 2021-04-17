@@ -88,8 +88,8 @@ func (c *memCache) cacheAllRecipeIDs(ctx context.Context) ([]int, error) {
 func (c *memCache) cacheIngredientIDsByRecipeID(ctx context.Context, recipeID int) ([]int, error) {
 	var ingredientIDs []int
 	err := c.db.WithContext(ctx).
-		Table("ingredients").
-		Select("id").
+		Table("includings").
+		Select("ingredient_id").
 		Where("recipe_id = ?", recipeID).
 		Scan(&ingredientIDs).Error
 	if err != nil {

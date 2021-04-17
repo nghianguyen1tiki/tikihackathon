@@ -101,7 +101,7 @@ func (r *repo) GetPersonalizedRecipes(
 		if err != nil {
 			return nil, err
 		}
-		recipes[i] = recipe
+		recipes[i] = *recipe
 	}
 	return recipes, nil
 }

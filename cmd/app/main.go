@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	configFilename = "crawler"
+	configFilename = "app"
 	startTimeout   = 30 * time.Second
 )
 
