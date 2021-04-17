@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/nghiant3223/tikihackathon/internal/config"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -20,15 +21,11 @@ import (
 
 type Crawler struct {
 	db         *gorm.DB
-	cfg        *config
+	cfg        *config.Crawl
 	httpClient *http.Client
 }
 
-func NewCrawler(db *gorm.DB, httpClient *http.Client, configFns ...configFn) *Crawler {
-	cfg := &config{}
-	for _, fn := range configFns {
-		fn(cfg)
-	}
+func NewCrawler(cfg *config.Crawl, db *gorm.DB, httpClient *http.Client) *Crawler {
 	return &Crawler{
 		db:         db,
 		cfg:        cfg,
@@ -46,9 +43,9 @@ func (c *Crawler) Start(ctx context.Context) error {
 
 func (c *Crawler) crawlAll(ctx context.Context) error {
 	var errGroup errgroup.Group
-	pool := make(chan struct{}, c.cfg.concurrency)
-	for i := 0; i < c.cfg.count; i++ {
-		recipeID := rand.Int() % c.cfg.upperID
+	pool := make(chan struct{}, c.cfg.Concurrency)
+	for i := 0; i < c.cfg.Count; i++ {
+		recipeID := rand.Int() % c.cfg.UpperID
 		errGroup.Go(func() error {
 			pool <- struct{}{}
 			defer func() { <-pool }()
@@ -182,7 +179,7 @@ func (c *Crawler) crawlRecipe(ctx context.Context, recipeID int) (Data, error) {
 }
 
 func (c *Crawler) buildTargetURL(id int) (string, error) {
-	u, err := url.Parse(c.cfg.target)
+	u, err := url.Parse(c.cfg.Target)
 	if err != nil {
 		return "", err
 	}

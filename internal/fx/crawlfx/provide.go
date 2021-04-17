@@ -1,31 +1,21 @@
 package crawlfx
 
 import (
+	"github.com/nghiant3223/tikihackathon/internal/config"
 	"net/http"
 
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 
 	"github.com/nghiant3223/tikihackathon/internal/crawl"
-	"github.com/nghiant3223/tikihackathon/pkg/assert"
 )
 
-func provideCrawler(db *gorm.DB, httpClient *http.Client) *crawl.Crawler {
-	target := viper.GetString("crawl.target")
-	assert.NotEmpty(target, "crawl.target is empty")
-	count := viper.GetInt("crawl.count")
-	assert.NotZero(count, "crawl.count is zero")
-	upperID := viper.GetInt("crawl.upperid")
-	assert.NotZero(upperID, "crawl.upperid is zero")
-	concurrency := viper.GetInt("crawl.concurrency")
-	assert.NotZero(upperID, "crawl.concurrency is zero")
+func provideCrawler(db *gorm.DB, httpClient *http.Client) (*crawl.Crawler, error) {
+	var cfg *config.Crawl
+	err := viper.UnmarshalKey("cache", &cfg)
+	if err != nil {
+		return nil, err
+	}
 
-	return crawl.NewCrawler(
-		db,
-		httpClient,
-		crawl.WithTarget(target),
-		crawl.WithCount(count),
-		crawl.WithUpperID(upperID),
-		crawl.WithConcurrency(concurrency),
-	)
+	return crawl.NewCrawler(cfg, db, httpClient), nil
 }

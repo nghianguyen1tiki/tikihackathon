@@ -9,5 +9,5 @@ log:
 crawl:
   target: https://marketapi.cooky.vn/recipe/v1.3/detail?checksum=09e61446787da4c260fbdf9a50554a83
   count: 1000
-  upperid: 15000
+  upper_id: 15000
   concurrency: 10

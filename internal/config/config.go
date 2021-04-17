@@ -27,3 +27,10 @@ type Feed struct {
 	DefaultOffset int `mapstructure:"default_offset"`
 	DefaultLimit  int `mapstructure:"default_limit"`
 }
+
+type Crawl struct {
+	Target      string
+	Count       int
+	UpperID     int `mapstructure:"upper_id"`
+	Concurrency int
+}
