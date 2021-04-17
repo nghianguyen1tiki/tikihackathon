@@ -11,7 +11,7 @@ import (
 )
 
 type Repo interface {
-	Get(ctx context.Context, id int) (model.Recipe, error)
+	Get(ctx context.Context, id int) (*model.Recipe, error)
 	Create(ctx context.Context, recipe *model.Recipe) error
 	Upsert(ctx context.Context, recipe *model.Recipe) error
 }
@@ -28,8 +28,19 @@ func NewRepo(db *gorm.DB) Repo {
 	}
 }
 
-func (r *repo) Get(ctx context.Context, id int) (model.Recipe, error) {
-	panic("implement me")
+func (r *repo) Get(ctx context.Context, id int) (*model.Recipe, error) {
+	record := &model.Recipe{}
+	err := r.db.WithContext(ctx).
+		Preload("Ingredients.Ingredient.TikiCategory").
+		Preload("Ingredients.Unit").
+		Preload("Steps.StepPhotos").
+		Preload(clause.Associations).
+		Where("id = ?", id).First(record).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return record, nil
 }
 
 func (r *repo) Create(ctx context.Context, recipe *model.Recipe) error {
