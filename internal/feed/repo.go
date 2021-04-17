@@ -12,8 +12,8 @@ import (
 )
 
 type Repo interface {
-	ListPopularRecipes(ctx context.Context) []model.Recipe
-	ListPersonalizedRecipes(
+	GetPopularRecipes(ctx context.Context, offset *int, limit *int) ([]model.Recipe, error)
+	GetPersonalizedRecipes(
 		ctx context.Context,
 		blacklistIngredientIDs,
 		whitelistIngredientIDs,
@@ -30,11 +30,19 @@ type repo struct {
 	recipeRepo recipe.Repo
 }
 
-func (r *repo) ListPopularRecipes(ctx context.Context) []model.Recipe {
-	panic("implement me")
+func NewRepo(cfg *config.Feed, cache cache.Cache, recipeRepo recipe.Repo) Repo {
+	return &repo{
+		cfg:        cfg,
+		cache:      cache,
+		recipeRepo: recipeRepo,
+	}
 }
 
-func (r *repo) ListPersonalizedRecipes(
+func (r *repo) GetPopularRecipes(ctx context.Context, offset *int, limit *int) ([]model.Recipe, error) {
+	return r.recipeRepo.ListPopular(ctx, offset, limit)
+}
+
+func (r *repo) GetPersonalizedRecipes(
 	ctx context.Context,
 	blacklistIngredientIDs,
 	whitelistIngredientIDs,
@@ -45,6 +53,10 @@ func (r *repo) ListPersonalizedRecipes(
 	if err != nil {
 		return nil, err
 	}
+
+	sort.Ints(blacklistIngredientIDs)
+	sort.Ints(whitelistIngredientIDs)
+	sort.Ints(pantryIngredientIDs)
 
 	recipeAndScoreList := make([][2]int, 0, len(recipeIDs))
 	for _, recipeID := range recipeIDs {

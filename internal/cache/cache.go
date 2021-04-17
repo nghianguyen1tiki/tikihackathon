@@ -11,17 +11,30 @@ import (
 
 type Cache interface {
 	Warmup(ctx context.Context) error
+	Cooldown(ctx context.Context) error
 	GetAllRecipeIDs(ctx context.Context) ([]int, error)
-	GetPopularRecipeIDs(ctx context.Context) ([]int, error)
 	GetIngIDsByRecipeID(ctx context.Context, recipeID int) ([]int, error)
 }
 
 var _ Cache = (*memCache)(nil)
 
 type memCache struct {
-	db       *gorm.DB
-	cfg      *config.Cache
-	memCache *cache.Cache
+	db      *gorm.DB
+	cfg     *config.Cache
+	goCache *cache.Cache
+}
+
+func New(cfg *config.Cache, db *gorm.DB, goCache *cache.Cache) Cache {
+	return &memCache{
+		db:      db,
+		cfg:     cfg,
+		goCache: goCache,
+	}
+}
+
+func (c *memCache) Cooldown(ctx context.Context) error {
+	c.goCache.Flush()
+	return nil
 }
 
 func (c *memCache) Warmup(ctx context.Context) error {
@@ -37,17 +50,12 @@ func (c *memCache) Warmup(ctx context.Context) error {
 		}
 	}
 
-	_, err = c.GetPopularRecipeIDs(ctx)
-	if err != nil {
-		return fmt.Errorf("failed to warm up popular recipes: %w", err)
-	}
-
 	return nil
 }
 
 func (c *memCache) GetAllRecipeIDs(ctx context.Context) ([]int, error) {
 	key := formatAllRecipeIDsKey()
-	recipesID, ok := c.memCache.Get(key)
+	recipesID, ok := c.goCache.Get(key)
 	if ok {
 		return recipesID.([]int), nil
 	}
@@ -56,20 +64,11 @@ func (c *memCache) GetAllRecipeIDs(ctx context.Context) ([]int, error) {
 
 func (c *memCache) GetIngIDsByRecipeID(ctx context.Context, recipeID int) ([]int, error) {
 	key := formatIngIDsByRecipeIDKey(recipeID)
-	ingredientIDs, ok := c.memCache.Get(key)
+	ingredientIDs, ok := c.goCache.Get(key)
 	if ok {
 		return ingredientIDs.([]int), nil
 	}
 	return c.cacheIngredientIDsByRecipeID(ctx, recipeID)
-}
-
-func (c *memCache) GetPopularRecipeIDs(ctx context.Context) ([]int, error) {
-	key := formatPopularRecipeIDsKey()
-	recipesIDs, ok := c.memCache.Get(key)
-	if ok {
-		return recipesIDs.([]int), nil
-	}
-	return c.cachePopularRecipeIDs(ctx)
 }
 
 func (c *memCache) cacheAllRecipeIDs(ctx context.Context) ([]int, error) {
@@ -82,7 +81,7 @@ func (c *memCache) cacheAllRecipeIDs(ctx context.Context) ([]int, error) {
 		return nil, err
 	}
 	key := formatAllRecipeIDsKey()
-	c.memCache.Set(key, recipeIDs, c.cfg.TTL)
+	c.goCache.Set(key, recipeIDs, c.cfg.TTL)
 	return recipeIDs, nil
 }
 
@@ -98,25 +97,8 @@ func (c *memCache) cacheIngredientIDsByRecipeID(ctx context.Context, recipeID in
 	}
 	sort.Ints(ingredientIDs)
 	key := formatIngIDsByRecipeIDKey(recipeID)
-	c.memCache.Set(key, ingredientIDs, c.cfg.TTL)
+	c.goCache.Set(key, ingredientIDs, c.cfg.TTL)
 	return ingredientIDs, nil
-}
-
-func (c *memCache) cachePopularRecipeIDs(ctx context.Context) ([]int, error) {
-	var recipeIDs []int
-	db := c.db.WithContext(ctx).
-		Table("recipes").
-		Select("id").
-		Offset(0).
-		Limit(c.cfg.PopularPageSize).
-		Order("total_view DESC")
-	err := db.Find(recipeIDs).Error
-	if err != nil {
-		return nil, err
-	}
-	key := formatPopularRecipeIDsKey()
-	c.memCache.Set(key, recipeIDs, c.cfg.TTL)
-	return recipeIDs, err
 }
 
 func formatIngIDsByRecipeIDKey(recipeID int) string {
@@ -125,8 +107,4 @@ func formatIngIDsByRecipeIDKey(recipeID int) string {
 
 func formatAllRecipeIDsKey() string {
 	return fmt.Sprintf("recipes")
-}
-
-func formatPopularRecipeIDsKey() string {
-	return fmt.Sprintf("recipes:popular")
 }

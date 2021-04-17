@@ -7,7 +7,7 @@ type Recipe struct {
 	Rating      float32
 	Servings    int
 	TotalTime   int
-	TotalView   int
+	TotalView   int `gorm:"index"`
 	Difficulty  int
 	Author      *User `gorm:"foreignKey:UserID"`
 	UserID      *int

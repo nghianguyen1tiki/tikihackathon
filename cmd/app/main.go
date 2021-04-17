@@ -1,8 +1,10 @@
 package main
 
 import (
+	"github.com/nghiant3223/tikihackathon/internal/fx/cachefx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/configfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/dbfx"
+	"github.com/nghiant3223/tikihackathon/internal/fx/feedfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/ginfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/gracefulfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/httpfx"
@@ -26,8 +28,11 @@ func main() {
 		dbfx.Provide,
 		httpfx.Provide,
 		ginfx.Provide,
+		cachefx.Provide,
 		recipefx.Provide,
 		recipefx.Invoke,
+		feedfx.Provide,
+		feedfx.Invoke,
 		serverfx.Provide,
 		gracefulfx.Invoke,
 	).Run()

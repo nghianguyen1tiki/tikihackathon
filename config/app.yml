@@ -9,3 +9,11 @@ log:
 server:
   http:
     port: 8080
+
+cache:
+  ttl: 3600000000000 # 1h in ns
+  cleanup_interval: 3600000000000  # 1h in ns
+
+feed:
+  default_offset: 0
+  default_limit: 10

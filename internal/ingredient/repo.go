@@ -3,8 +3,6 @@ package ingredient
 import (
 	"context"
 
-	"gorm.io/gorm/clause"
-
 	"gorm.io/gorm"
 
 	"github.com/nghiant3223/tikihackathon/internal/model"
@@ -13,7 +11,6 @@ import (
 type Repo interface {
 	Get(ctx context.Context, id int) (model.Ingredient, error)
 	Create(ctx context.Context, ingredient *model.Ingredient) error
-	Upsert(ctx context.Context, ingredient *model.Ingredient) error
 	List(ctx context.Context, page int, limit int, filter map[string]interface{}) ([]*model.Ingredient, error)
 }
 
@@ -35,13 +32,6 @@ func (r *repo) Get(ctx context.Context, id int) (model.Ingredient, error) {
 
 func (r *repo) Create(ctx context.Context, ingredient *model.Ingredient) error {
 	panic("implement me")
-}
-
-func (r *repo) Upsert(ctx context.Context, ingredient *model.Ingredient) error {
-	return r.db.
-		WithContext(ctx).
-		Clauses(clause.OnConflict{UpdateAll: true}).
-		Create(ingredient).Error
 }
 
 func (r *repo) List(ctx context.Context, page int, limit int, filter map[string]interface{}) ([]*model.Ingredient, error) {

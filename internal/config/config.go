@@ -2,10 +2,6 @@ package config
 
 import "time"
 
-type Config struct {
-	Server Server
-}
-
 type Server struct {
 	Http struct {
 		Port string
@@ -23,11 +19,11 @@ type Log struct {
 }
 
 type Cache struct {
-	TTL             time.Duration
-	PopularPageSize int
+	TTL             time.Duration `mapstructure:"ttl"`
+	CleanupInterval time.Duration `mapstructure:"cleanup_interval"`
 }
 
 type Feed struct {
-	DefaultOffset int
-	DefaultLimit  int
+	DefaultOffset int `mapstructure:"default_offset"`
+	DefaultLimit  int `mapstructure:"default_limit"`
 }

@@ -3,8 +3,6 @@ package recipe
 import (
 	"context"
 
-	"gorm.io/gorm/clause"
-
 	"gorm.io/gorm"
 
 	"github.com/nghiant3223/tikihackathon/internal/model"
@@ -12,8 +10,7 @@ import (
 
 type Repo interface {
 	Get(ctx context.Context, id int) (model.Recipe, error)
-	Create(ctx context.Context, recipe *model.Recipe) error
-	Upsert(ctx context.Context, recipe *model.Recipe) error
+	ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error)
 }
 
 var _ Repo = (*repo)(nil)
@@ -28,17 +25,27 @@ func NewRepo(db *gorm.DB) Repo {
 	}
 }
 
+func (r *repo) ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error) {
+	var recipes []model.Recipe
+	db := r.db.WithContext(ctx).Order("total_view DESC")
+	if limit != nil {
+		db = db.Limit(*limit)
+	}
+	if offset != nil {
+		db = db.Offset(*offset)
+	}
+	err := db.Find(&recipes).Error
+	if err != nil {
+		return nil, err
+	}
+	return recipes, nil
+}
+
 func (r *repo) Get(ctx context.Context, id int) (model.Recipe, error) {
-	panic("implement me")
-}
-
-func (r *repo) Create(ctx context.Context, recipe *model.Recipe) error {
-	panic("implement me")
-}
-
-func (r *repo) Upsert(ctx context.Context, recipe *model.Recipe) error {
-	return r.db.
-		WithContext(ctx).
-		Clauses(clause.OnConflict{UpdateAll: true}).
-		Create(recipe).Error
+	var recipe model.Recipe
+	err := r.db.WithContext(ctx).Preload("Photo").First(&recipe, id).Error
+	if err != nil {
+		return model.Recipe{}, err
+	}
+	return recipe, nil
 }
