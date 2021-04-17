@@ -67,11 +67,6 @@ func (h *handler) search(c *gin.Context) {
 
 	limit := cast.ToInt(query.Size)
 	offset := cast.ToInt(query.Page) * cast.ToInt(query.Size)
-	popular, err := h.repo.GetPopularRecipes(c, &offset, &limit)
-	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
 	blacklist := lang.StringSliceToIntSlice(query.Blacklist)
 	whitelist := lang.StringSliceToIntSlice(query.Whitelist)
 	pantry := lang.StringSliceToIntSlice(query.Pantry)
@@ -80,10 +75,5 @@ func (h *handler) search(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-
-	resp := dto.GetFeedResponse{
-		PopularRecipes:      popular,
-		PersonalizedRecipes: personal,
-	}
-	c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, personal)
 }
