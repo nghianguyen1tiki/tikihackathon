@@ -1,9 +1,10 @@
 package model
 
 type Ingredient struct {
-	ID   int
-	Name string `gorm:"unique"`
-	CatID string
+	ID           int           `json:"id" gorm:"primaryKey"`
+	Name         string        `json:"name" gorm:"unique"`
+	TikiCategory *TikiCategory `json:"tiki_category" gorm:"foreignKey:tiki_cate_id"`
+	TikiCateID   int           `json:"tiki_cate_id"`
 }
 
 type Unit struct {
@@ -11,8 +12,8 @@ type Unit struct {
 	Name string `gorm:"unique"`
 }
 
-type TikiCate struct {
-	Id int
-	Name string
-	CateID string
+type TikiCategory struct {
+	Id    int    `json:"id" gorm:"primaryKey"`
+	Name  string `json:"name"`
+	CatID string `json:"cat_id"`
 }

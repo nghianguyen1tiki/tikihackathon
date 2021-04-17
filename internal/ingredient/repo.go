@@ -52,8 +52,9 @@ func (r *repo) List(ctx context.Context, page int, limit int, filter map[string]
 
 	offset := (page - 1) * limit
 	err := r.db.WithContext(ctx).
-		Joins("INNER JOIN tiki_cat on ingredients.tiki_cate_id = tiki_cat.id").
-		Where("name LIKE ?", "%"+name+"%").Order("id DESC").Limit(limit).Offset(offset).Find(&records).Error
+		Preload(clause.Associations).
+		Joins("INNER JOIN tiki_categories on ingredients.tiki_cate_id = tiki_categories.id").
+		Where("ingredients.name LIKE ?", "%"+name+"%").Order("id DESC").Limit(limit).Offset(offset).Find(&records).Error
 	return records, err
 }
 
