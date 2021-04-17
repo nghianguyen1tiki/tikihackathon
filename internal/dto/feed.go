@@ -14,3 +14,12 @@ type GetFeedQuery struct {
 	Whitelist []string `form:"whitelist[]"`
 	Pantry    []string `form:"pantry[]"`
 }
+
+type SearchQuery struct {
+	Page      string   `form:"page" binding:"required"`
+	Size      string   `form:"size" binding:"required"`
+	Query     string   `form:"q" binding:"required"`
+	Blacklist []string `form:"blacklist[]"`
+	Whitelist []string `form:"whitelist[]"`
+	Pantry    []string `form:"pantry[]"`
+}

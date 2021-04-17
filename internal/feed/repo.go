@@ -20,6 +20,14 @@ type Repo interface {
 		pantryIngredientIDs []int,
 		offset, limit *int,
 	) ([]model.Recipe, error)
+	SearchPersonalizedRecipes(
+		ctx context.Context,
+		query string,
+		blacklistIngredientIDs,
+		whitelistIngredientIDs,
+		pantryIngredientIDs []int,
+		offset, limit *int,
+	) ([]model.Recipe, error)
 }
 
 var _ Repo = (*repo)(nil)
@@ -93,6 +101,51 @@ func (r *repo) GetPersonalizedRecipes(
 	}
 	actualUpper := math.MinInt(actualOffset+actualLimit+1, len(recipeAndScoreList))
 	recipeAndScoreList = recipeAndScoreList[actualOffset:actualUpper]
+
+	recipes := make([]model.Recipe, len(recipeAndScoreList))
+	for i, idScorePair := range recipeAndScoreList {
+		id := idScorePair[0]
+		recipe, err := r.recipeRepo.Get(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+		recipes[i] = *recipe
+	}
+	return recipes, nil
+}
+
+func (r *repo) SearchPersonalizedRecipes(
+	ctx context.Context,
+	query string,
+	blacklistIngredientIDs,
+	whitelistIngredientIDs,
+	pantryIngredientIDs []int,
+	offset, limit *int,
+) ([]model.Recipe, error) {
+	recipeIDs, err := r.recipeRepo.SearchIDs(ctx, query, *offset, *limit)
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Ints(blacklistIngredientIDs)
+	sort.Ints(whitelistIngredientIDs)
+	sort.Ints(pantryIngredientIDs)
+
+	recipeAndScoreList := make([][2]int, 0, len(recipeIDs))
+	for _, recipeID := range recipeIDs {
+		ingIDs, err := r.cache.GetIngIDsByRecipeID(ctx, recipeID)
+		if err != nil {
+			return nil, err
+		}
+		if isBlacklisted(blacklistIngredientIDs, ingIDs) {
+			continue
+		}
+		whitelistScore := calculateScore(whitelistIngredientIDs, ingIDs)
+		pantryScore := calculateScore(pantryIngredientIDs, ingIDs)
+		score := whitelistScore + pantryScore
+		recipeIDAndScore := [2]int{recipeID, score}
+		recipeAndScoreList = append(recipeAndScoreList, recipeIDAndScore)
+	}
 
 	recipes := make([]model.Recipe, len(recipeAndScoreList))
 	for i, idScorePair := range recipeAndScoreList {

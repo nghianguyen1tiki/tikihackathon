@@ -41,9 +41,9 @@ type StepPhoto struct {
 }
 
 type RecipePhoto struct {
-	ID       int
-	URL      string `gorm:"types:text"`
-	Height   int
-	Width    int
-	RecipeID int
+	ID       int    `json:"id"`
+	URL      string `json:"url" gorm:"types:text"`
+	Height   int    `json:"height"`
+	Width    int    `json:"width"`
+	RecipeID int    `json:"recipe_id"`
 }

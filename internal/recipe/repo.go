@@ -2,6 +2,7 @@ package recipe
 
 import (
 	"context"
+	"fmt"
 	"gorm.io/gorm/clause"
 
 	"gorm.io/gorm"
@@ -12,6 +13,7 @@ import (
 type Repo interface {
 	ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error)
 	Get(ctx context.Context, id int) (*model.Recipe, error)
+	SearchIDs(ctx context.Context, q string, offset, limit int) ([]int, error)
 }
 
 var _ Repo = (*repo)(nil)
@@ -28,7 +30,14 @@ func NewRepo(db *gorm.DB) Repo {
 
 func (r *repo) ListPopular(ctx context.Context, offset, limit *int) ([]model.Recipe, error) {
 	var recipes []model.Recipe
-	db := r.db.WithContext(ctx).Order("total_view DESC")
+	db := r.db.
+		WithContext(ctx).
+		Preload("Ingredients.Ingredient.TikiCategory").
+		Preload("Ingredients.Unit").
+		Preload("Steps.StepPhotos").
+		Preload("Photo").
+		Preload(clause.Associations).
+		Order("total_view DESC")
 	if limit != nil {
 		db = db.Limit(*limit)
 	}
@@ -48,6 +57,7 @@ func (r *repo) Get(ctx context.Context, id int) (*model.Recipe, error) {
 		Preload("Ingredients.Ingredient.TikiCategory").
 		Preload("Ingredients.Unit").
 		Preload("Steps.StepPhotos").
+		Preload("Photo").
 		Preload(clause.Associations).
 		Where("id = ?", id).
 		First(record).Error
@@ -56,4 +66,14 @@ func (r *repo) Get(ctx context.Context, id int) (*model.Recipe, error) {
 	}
 
 	return record, nil
+}
+
+func (r *repo) SearchIDs(ctx context.Context, q string, offset, limit int) ([]int, error) {
+	var recipeIDs []int
+	query := fmt.Sprintf("SELECT id FROM recipes WHERE MATCH(name, description) AGAINST('%s' IN BOOLEAN MODE) LIMIT %d OFFSET %d", q, limit, offset)
+	err := r.db.WithContext(ctx).Raw(query).Scan(&recipeIDs).Error
+	if err != nil {
+		return nil, err
+	}
+	return recipeIDs, nil
 }
