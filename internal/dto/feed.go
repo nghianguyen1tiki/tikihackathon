@@ -8,9 +8,9 @@ type GetFeedResponse struct {
 }
 
 type GetFeedQuery struct {
-	Page      int   `form:"page" binding:"required"`
-	Size      int   `form:"size" binding:"required"`
-	Blacklist []int `form:"blacklist"`
-	Whitelist []int `form:"whitelist"`
-	Pantry    []int `form:"pantry"`
+	Page      string   `form:"page" binding:"required"`
+	Size      string   `form:"size" binding:"required"`
+	Blacklist []string `form:"blacklist[]"`
+	Whitelist []string `form:"whitelist[]"`
+	Pantry    []string `form:"pantry[]"`
 }

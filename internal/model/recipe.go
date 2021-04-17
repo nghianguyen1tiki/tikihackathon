@@ -1,43 +1,43 @@
 package model
 
 type Recipe struct {
-	ID          int
-	Name        string `gorm:"unique"`
-	Description string `gorm:"types:text"`
-	Rating      float32
-	Servings    int
-	TotalTime   int
-	TotalView   int `gorm:"index"`
-	Difficulty  int
-	Author      *User `gorm:"foreignKey:UserID"`
-	UserID      *int
-	Ingredients []Including
-	Steps       []Step
-	Photo       RecipePhoto
+	ID          int         `json:"id"`
+	Name        string      `json:"name" gorm:"unique"`
+	Description string      `json:"description" gorm:"types:text"`
+	Rating      float32     `json:"rating"`
+	Servings    int         `json:"servings"`
+	TotalTime   int         `json:"total_time"`
+	TotalView   int         `json:"total_view" gorm:"index"`
+	Difficulty  int         `json:"difficulty"`
+	Author      *User       `json:"author" gorm:"foreignKey:UserID"`
+	UserID      *int        `json:"user_id"`
+	Ingredients []Including `json:"ingredients"`
+	Steps       []Step      `json:"steps"`
+	Photo       RecipePhoto `json:"photo"`
 }
 
 type Including struct {
-	RecipeID     int `gorm:"primaryKey"`
-	IngredientID int `gorm:"primaryKey"`
-	UnitID       int `gorm:"not null"`
-	Quantity     string
-	Ingredient   Ingredient
-	Unit         Unit
+	RecipeID     int        `json:"recipe_id" gorm:"primaryKey"`
+	IngredientID int        `json:"ingredient_id" gorm:"primaryKey"`
+	UnitID       int        `json:"unit_id" gorm:"not null"`
+	Quantity     string     `json:"quantity"`
+	Ingredient   Ingredient `json:"ingredient"`
+	Unit         Unit       `json:"unit"`
 }
 
 type Step struct {
-	ID         int
-	Content    string `gorm:"types:text"`
-	RecipeID   int
-	StepPhotos []StepPhoto
+	ID         int         `json:"id"`
+	Content    string      `json:"content" gorm:"types:text"`
+	RecipeID   int         `json:"recipe_id"`
+	StepPhotos []StepPhoto `json:"step_photos"`
 }
 
 type StepPhoto struct {
-	ID     int
-	URL    string `gorm:"types:text"`
-	Height int
-	Width  int
-	StepID int
+	ID     int    `json:"id"`
+	URL    string `json:"url" gorm:"types:text"`
+	Height int    `json:"height"`
+	Width  int    `json:"width"`
+	StepID int    `json:"step_id"`
 }
 
 type RecipePhoto struct {

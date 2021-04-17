@@ -4,6 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nghiant3223/tikihackathon/internal/dto"
 	"github.com/nghiant3223/tikihackathon/internal/server"
+	"github.com/nghiant3223/tikihackathon/pkg/lang"
+	"github.com/nghiant3223/tikihackathon/pkg/log"
+	"github.com/spf13/cast"
 	"net/http"
 )
 
@@ -27,18 +30,22 @@ func (h *handler) getFeed(c *gin.Context) {
 	var query dto.GetFeedQuery
 	err := c.ShouldBindQuery(&query)
 	if err != nil {
+		log.Errorw("cannot bind query", "error", err)
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	limit := query.Size
-	offset := query.Page * query.Size
+	limit := cast.ToInt(query.Size)
+	offset := cast.ToInt(query.Page) * cast.ToInt(query.Size)
 	popular, err := h.repo.GetPopularRecipes(c, &offset, &limit)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-	personal, err := h.repo.GetPersonalizedRecipes(c, query.Blacklist, query.Whitelist, query.Pantry, &offset, &limit)
+	blacklist := lang.StringSliceToIntSlice(query.Blacklist)
+	whitelist := lang.StringSliceToIntSlice(query.Whitelist)
+	pantry := lang.StringSliceToIntSlice(query.Pantry)
+	personal, err := h.repo.GetPersonalizedRecipes(c, blacklist, whitelist, pantry, &offset, &limit)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return

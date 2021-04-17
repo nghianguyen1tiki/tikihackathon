@@ -8,8 +8,8 @@ type Ingredient struct {
 }
 
 type Unit struct {
-	ID   int
-	Name string `gorm:"unique"`
+	ID   int    `json:"id"`
+	Name string `json:"name" gorm:"unique"`
 }
 
 type TikiCategory struct {
