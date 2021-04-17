@@ -1,11 +1,14 @@
 package main
 
 import (
+	"github.com/nghiant3223/tikihackathon/internal/fx/cachefx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/configfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/dbfx"
+	"github.com/nghiant3223/tikihackathon/internal/fx/feedfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/ginfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/gracefulfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/httpfx"
+	"github.com/nghiant3223/tikihackathon/internal/fx/ingredientfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/logfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/recipefx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/serverfx"
