@@ -1,6 +1,7 @@
 package dbfx
 
 import (
+	"github.com/nghiant3223/tikihackathon/internal/model"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -22,5 +23,16 @@ func provideDB() (*gorm.DB, error) {
 		log.Errorw("cannot open database connection", "error", err)
 		return nil, err
 	}
+	db.AutoMigrate(
+		&model.Ingredient{},
+		&model.Unit{},
+		&model.TikiCategory{},
+		&model.Recipe{},
+		&model.Including{},
+		&model.Step{},
+		&model.StepPhoto{},
+		&model.RecipePhoto{},
+		&model.User{},
+	)
 	return db, nil
 }

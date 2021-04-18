@@ -15,7 +15,6 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: ldk3IlkD9
       MYSQL_DATABASE: tikihackathon
     volumes:
