@@ -20,7 +20,7 @@ services:
     volumes:
       - tikihackathonvolume:/var/lib/mysql
   nginx:
-    image: your_nginx_image/nginx:latest
+    image: nginx:latest
     ports:
       - "80:80"
       - "443:443"
