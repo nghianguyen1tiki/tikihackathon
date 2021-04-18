@@ -22,7 +22,7 @@ func NewHandler(repo Repo) server.Handler {
 }
 
 func (h *handler) Register(router gin.IRouter) {
-	router.GET("/", h.listIngredients)
+	router.GET("", h.listIngredients)
 }
 
 func (h *handler) listIngredients(c *gin.Context) {

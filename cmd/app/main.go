@@ -12,6 +12,8 @@ import (
 	"github.com/nghiant3223/tikihackathon/internal/fx/logfx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/recipefx"
 	"github.com/nghiant3223/tikihackathon/internal/fx/serverfx"
+	"github.com/nghiant3223/tikihackathon/internal/fx/tikingonfx"
+
 	"go.uber.org/fx"
 	"time"
 )
@@ -36,6 +38,7 @@ func main() {
 		feedfx.Invoke,
 		ingredientfx.Provide,
 		ingredientfx.Invoke,
+		tikingonfx.Invoke,
 		serverfx.Provide,
 		gracefulfx.Invoke,
 	).Run()

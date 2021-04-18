@@ -85,7 +85,7 @@ func (r *repo) GetPersonalizedRecipes(
 	sort.Slice(recipeAndScoreList, func(i, j int) bool {
 		scoreI := recipeAndScoreList[i][1]
 		scoreJ := recipeAndScoreList[j][1]
-		return scoreI < scoreJ
+		return scoreI > scoreJ
 	})
 
 	actualLimit := r.cfg.DefaultLimit

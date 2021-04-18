@@ -1,6 +1,6 @@
 db:
   dialect: mysql
-  dsn: aquacity_tkhkt:!-xn9z,5ekQE@tcp(202.92.5.200:3306)/aquacity_tkhkt?timeout=10s&parseTime=true
+  dsn: root:Hiep.vv!serious1@tcp(localhost:3306)/tikihackathon?timeout=10s&parseTime=true
 
 log:
   mode: production
