@@ -31,12 +31,6 @@ func TestCalculateScore(t *testing.T) {
 			out:  3,
 		},
 		{
-			name: "3",
-			in1:  []int{},
-			in2:  []int{1, 5, 9},
-			out:  0,
-		},
-		{
 			name: "4",
 			in1:  []int{0, 1},
 			in2:  []int{1, 5, 9},
@@ -59,6 +53,12 @@ func TestCalculateScore(t *testing.T) {
 			in1:  []int{1, 2, 4, 5, 6, 7, 9, 10, 12},
 			in2:  []int{1, 5, 9},
 			out:  3,
+		},
+		{
+			name: "8",
+			in1:  []int{},
+			in2:  []int{1, 5, 9},
+			out:  0,
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -94,12 +94,6 @@ func TestIsBlacklisted(t *testing.T) {
 			out:  true,
 		},
 		{
-			name: "3",
-			in1:  []int{1, 5, 9},
-			in2:  []int{2, 4, 6, 7, 10, 12},
-			out:  false,
-		},
-		{
 			name: "4",
 			in1:  []int{},
 			in2:  []int{2, 4, 6, 7, 10, 12},
@@ -109,6 +103,12 @@ func TestIsBlacklisted(t *testing.T) {
 			name: "5",
 			in1:  []int{2, 4, 6, 7, 10, 12},
 			in2:  []int{},
+			out:  false,
+		},
+		{
+			name: "8",
+			in1:  []int{1, 5, 9},
+			in2:  []int{2, 4, 6, 7, 10, 12},
 			out:  false,
 		},
 	} {
