@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.app
@@ -19,5 +19,13 @@ services:
       MYSQL_DATABASE: tikihackathon
     volumes:
       - tikihackathonvolume:/var/lib/mysql
+  nginx:
+    image: your_nginx_image/nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs
+      - ./nginx.conf:/etc/nginx/nginx.conf
 volumes:
   tikihackathonvolume:
