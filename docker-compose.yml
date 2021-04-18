@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "8080:8080"
+    links:
+      - db
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: ldk3IlkD9
+      MYSQL_DATABASE: tikihackathon
+    volumes:
+      - tikihackathonvolume:/var/lib/mysql
+volumes:
+  tikihackathonvolume:

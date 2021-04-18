@@ -23,12 +23,16 @@ func NewServer(config *config.Server, router *gin.Engine) Server {
 		config: config,
 		router: router,
 	}
-	addr := net.JoinHostPort("", config.Http.Port)
 	newServer.httpServer = &http.Server{
-		Addr:    addr,
 		Handler: newServer.router,
+		Addr:    net.JoinHostPort("", config.Http.Port),
 	}
+	newServer.initialize()
 	return newServer
+}
+
+func (s *server) initialize() {
+	s.addHealthCheckEndpoint()
 }
 
 func (s *server) Start(ctx context.Context) error {
