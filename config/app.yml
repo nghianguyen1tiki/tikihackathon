@@ -1,6 +1,6 @@
 db:
   dialect: mysql
-  dsn: root:ldk3IlkD9@tcp(db:3306)/tikihackathon?timeout=10s&parseTime=true
+  dsn: root:ldk3IlkD9@tcp(61.14.233.244:3306)/tikihackathon?timeout=10s&parseTime=true
 
 log:
   mode: production
