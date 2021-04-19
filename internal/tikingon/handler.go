@@ -27,12 +27,13 @@ func (h *handler) Register(router gin.IRouter) {
 }
 
 type Entity struct {
-	Name string `json:"name"`
-	Price int `json:"price"`
-	DiscountRate int `json:"discount_rate"`
-	ThumbnailUrl string `json:"thumbnail_url"`
-	ThumbnailWidth int `json:"thumbnail_width"`
-	ThumbnailHeight int `json:"thumbnail_height"`
+	ID              int64  `json:"id"`
+	Name            string `json:"name"`
+	Price           int    `json:"price"`
+	DiscountRate    int    `json:"discount_rate"`
+	ThumbnailUrl    string `json:"thumbnail_url"`
+	ThumbnailWidth  int    `json:"thumbnail_width"`
+	ThumbnailHeight int    `json:"thumbnail_height"`
 }
 
 type Res struct {
@@ -45,13 +46,13 @@ func (h *handler) searchTikiNgon(c *gin.Context) {
 	limit := c.DefaultQuery("limit", "10")
 
 	ft := "https://tiki.vn/api/v2/products?limit=%v&q=%v&category=%v"
-	url := fmt.Sprintf(ft,limit,url.QueryEscape(ingredientName),category)
+	_url := fmt.Sprintf(ft, limit, url.QueryEscape(ingredientName), category)
 	method := "GET"
 
 	client := &http.Client{
-		Timeout:       5*time.Second,
+		Timeout: 5 * time.Second,
 	}
-	req, err := http.NewRequest(method, url, nil)
+	req, err := http.NewRequest(method, _url, nil)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
