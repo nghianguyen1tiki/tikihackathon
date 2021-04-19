@@ -28,6 +28,7 @@ func (h *handler) Register(router gin.IRouter) {
 
 type Entity struct {
 	ID              int64  `json:"id"`
+	SKU             string `json:"sku"`
 	Name            string `json:"name"`
 	Price           int    `json:"price"`
 	DiscountRate    int    `json:"discount_rate"`
