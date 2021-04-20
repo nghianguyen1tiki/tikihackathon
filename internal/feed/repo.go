@@ -147,6 +147,12 @@ func (r *repo) SearchPersonalizedRecipes(
 		recipeAndScoreList = append(recipeAndScoreList, recipeIDAndScore)
 	}
 
+	sort.Slice(recipeAndScoreList, func(i, j int) bool {
+		scoreI := recipeAndScoreList[i][1]
+		scoreJ := recipeAndScoreList[j][1]
+		return scoreI > scoreJ
+	})
+
 	recipes := make([]model.Recipe, len(recipeAndScoreList))
 	for i, idScorePair := range recipeAndScoreList {
 		id := idScorePair[0]
@@ -158,3 +164,4 @@ func (r *repo) SearchPersonalizedRecipes(
 	}
 	return recipes, nil
 }
+
